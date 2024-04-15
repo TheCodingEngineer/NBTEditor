@@ -58,6 +58,7 @@ public class NbtTabPanel extends JTabbedPane {
                         }
                     } catch (UnsupportedFlavorException | IOException e) {
                         e.printStackTrace();
+                        accept = false;
                     }
                 }
                 if (accept) {
@@ -99,14 +100,16 @@ public class NbtTabPanel extends JTabbedPane {
 
     public void addFile(File file) {
         var panel = new NbtPanel(this, file);
-        this.add(file.getName(), new JLabel(file.getName()));
+        this.addTab(file.getName(), new JLabel(file.getName()));
 
         int latestIndex = this.getTabCount() - 1;
+
         this.setTabComponentAt(latestIndex, new CloseTabComponent(this));
         var scrollContainer = new JScrollPane(panel);
         scrollContainer.getVerticalScrollBar().setUnitIncrement(10);
         scrollContainer.getHorizontalScrollBar().setUnitIncrement(10);
         this.setComponentAt(latestIndex, scrollContainer);
+        this.setSelectedIndex(latestIndex);
 
         parent.getByActionCommand("close").setEnabled(this.hasSelectedFile());
     }

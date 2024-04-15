@@ -8,7 +8,10 @@ import org.jnbt.*;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.*;
 import java.util.HashMap;
 
@@ -37,6 +40,24 @@ public class NbtPanel extends JPanel {
         nbtTree.setEditable(false);
         nbtTree.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 16));
         nbtTree.setCellRenderer(new NbtTreeCellRenderer(parent.getNbtIcons()));
+
+        nbtTree.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
+                    int x = e.getX();
+                    int y = e.getY();
+                    JTree tree = (JTree)e.getSource();
+                    TreePath path = tree.getPathForLocation(x, y);
+                    if (path == null)
+                        return;
+
+                    NbtTreeNode node = (NbtTreeNode) path.getLastPathComponent();
+                    // TODO: add edit dialog
+                    // showInputDialog(node);
+                }
+            }
+        });
 
         add(nbtTree, BorderLayout.CENTER);
     }

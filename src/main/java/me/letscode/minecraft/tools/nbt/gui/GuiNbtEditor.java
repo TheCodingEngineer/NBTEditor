@@ -1,5 +1,6 @@
 package me.letscode.minecraft.tools.nbt.gui;
 
+import me.letscode.minecraft.tools.nbt.gui.dialogs.AboutDialog;
 import me.letscode.minecraft.tools.nbt.gui.menu.MenuBuilder;
 import me.letscode.minecraft.tools.nbt.gui.menu.MenuPopupBuilder;
 import me.letscode.minecraft.tools.nbt.utils.*;
@@ -14,6 +15,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -125,7 +129,27 @@ public class GuiNbtEditor extends JFrame {
         .addSeperator()
         .addMenuItem("menu.file.quit", "quit");
 
+        var infoBuilder = new MenuBuilder("menu.info", (handler, item) -> {
+            if (item.getActionCommand() == null) {
+                return;
+            }
+
+            switch (item.getActionCommand()) {
+                case "projectPage":
+                    this.openURL("https://github.com/TheCodingEngineer/NBTEditor");
+                    break;
+                case "showAbout":
+                    AboutDialog dialog = new AboutDialog(GuiNbtEditor.this, Resources.getImage("/images/compound.png"), this.guiTranslations);
+                    dialog.showCenter();
+                    break;
+            }
+        })
+        .addMenuItem("menu.info.page", "projectPage")
+        .addSeperator()
+        .addMenuItem("menu.info.about", "showAbout");
+
         menuBar.add(this.fileMenu = fileBuilder.getJMenu());
+        menuBar.add(infoBuilder.getJMenu());
 
         JToolBar toolBar = new JToolBar();
         setupToolBar(toolBar);
@@ -134,6 +158,18 @@ public class GuiNbtEditor extends JFrame {
 
         add(toolBar, BorderLayout.NORTH);
         add(this.tabPanel, BorderLayout.CENTER);
+    }
+
+    private void openURL(String url) {
+        if (Desktop.isDesktopSupported()) {
+            if (Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                try {
+                    Desktop.getDesktop().browse(new URI(url));
+                } catch (IOException | URISyntaxException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
     }
 
 
@@ -164,8 +200,9 @@ public class GuiNbtEditor extends JFrame {
             var image = Resources.getImage(info.imagePath());
 
             JButton button = new JButton(Resources.getScaledImage(image, 24, 24));
-            //button.setPreferredSize(new Dimension(32, 32));
+            button.setPreferredSize(new Dimension(32, 32));
             button.setActionCommand("node." + info.name().toLowerCase());
+            button.setToolTipText(info.name());
 
             toolBar.add(button);
             if (info.nbtTypeId() == NBTConstants.TYPE_DOUBLE || info.nbtTypeId() == NBTConstants.TYPE_LONG_ARRAY) {
