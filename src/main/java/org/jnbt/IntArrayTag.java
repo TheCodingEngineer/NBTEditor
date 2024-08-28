@@ -50,7 +50,7 @@ public final class IntArrayTag extends Tag {
 	/**
 	 * The value.
 	 */
-	private final int[] value;
+	private int[] value;
 	
 	/**
 	 * Creates the tag.
@@ -65,11 +65,23 @@ public final class IntArrayTag extends Tag {
 		super(name);
 		this.value = value;
 	}
+
+	public IntArrayTag(final String name, final int size) {
+
+		super(name);
+		this.value = new int[size];
+	}
 	
 	@Override
 	public int[] getValue() {
 	
 		return value;
+	}
+
+	@Override
+	public void setValue(Object value) {
+
+		this.value = (int[]) value;
 	}
 	
 	@Override

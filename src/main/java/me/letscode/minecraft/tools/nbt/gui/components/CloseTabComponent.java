@@ -3,6 +3,8 @@ package me.letscode.minecraft.tools.nbt.gui.components;
 import me.letscode.minecraft.tools.nbt.gui.NbtTabPanel;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.EtchedBorder;
 import javax.swing.plaf.basic.BasicButtonUI;
 import java.awt.*;
 import java.awt.event.*;
@@ -54,7 +56,7 @@ public class CloseTabComponent extends JPanel {
             setContentAreaFilled(false);
             //No need to be focusable
             setFocusable(false);
-            setBorder(BorderFactory.createEtchedBorder());
+            setBorder(BorderFactory.createDashedBorder(Color.GRAY));
             setBorderPainted(false);
             //Making nice rollover effect
             //we use the same listener for all buttons
@@ -82,12 +84,13 @@ public class CloseTabComponent extends JPanel {
             if (getModel().isPressed()) {
                 g2.translate(1, 1);
             }
-            g2.setStroke(new BasicStroke(2));
-            g2.setColor(Color.GRAY);
+            g2.setStroke(new BasicStroke(2.5f));
+            g2.setColor(Color.BLACK);
             if (getModel().isRollover()) {
                 g2.setColor(Color.RED);
             }
             int delta = 5;
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g2.drawLine(delta, delta, getWidth() - delta - 1, getHeight() - delta - 1);
             g2.drawLine(getWidth() - delta - 1, delta, delta, getHeight() - delta - 1);
             g2.dispose();

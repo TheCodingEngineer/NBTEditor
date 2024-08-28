@@ -38,6 +38,7 @@ package org.jnbt;
 //@formatter:on
 
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -72,7 +73,14 @@ public final class ListTag extends Tag {
 	
 		super(name);
 		this.type = type;
-		this.value = Collections.unmodifiableList(value);
+		this.value = new LinkedList<>(value);
+	}
+
+	public ListTag(final String name, final Class<? extends Tag> type) {
+
+		super(name);
+		this.type = type;
+		this.value = new LinkedList<>();
 	}
 	
 	/**
@@ -90,7 +98,13 @@ public final class ListTag extends Tag {
 	
 		return value;
 	}
-	
+
+	@Override
+	public void setValue(Object value) {
+
+		throw new UnsupportedOperationException("list cannot be modified directly");
+	}
+
 	@Override
 	public String toString() {
 	

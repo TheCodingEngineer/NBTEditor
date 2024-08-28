@@ -48,7 +48,7 @@ public final class ByteTag extends Tag {
 	/**
 	 * The value.
 	 */
-	private final byte value;
+	private byte value;
 	
 	/**
 	 * Creates the tag.
@@ -68,6 +68,12 @@ public final class ByteTag extends Tag {
 	public Byte getValue() {
 	
 		return value;
+	}
+
+	@Override
+	public void setValue(Object value) {
+
+		this.value = (byte) value;
 	}
 	
 	@Override

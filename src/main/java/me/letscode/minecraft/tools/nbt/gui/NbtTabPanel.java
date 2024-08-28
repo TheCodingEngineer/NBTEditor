@@ -8,6 +8,7 @@ import me.letscode.minecraft.tools.nbt.utils.Resources;
 import me.letscode.minecraft.tools.nbt.utils.StringHelper;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -24,6 +25,8 @@ public class NbtTabPanel extends JTabbedPane {
     private final GuiNbtEditor parent;
 
     private final Map<Integer, ImageIcon> nbtIcons;
+
+    private JLabel infoLabel;
 
     public NbtTabPanel(GuiNbtEditor parent) {
         this.parent = parent;
@@ -95,6 +98,10 @@ public class NbtTabPanel extends JTabbedPane {
             }
         });
 
+        this.addChangeListener((e) -> {
+            parent.getByActionCommand("close").setEnabled(this.hasSelectedFile());
+        });
+
         setDropTarget(new DropTarget(this, DnDConstants.ACTION_COPY, dropAdapter, true));
     }
 
@@ -117,16 +124,12 @@ public class NbtTabPanel extends JTabbedPane {
     public void closeCurrentFile() {
         if (this.hasSelectedFile()) {
             removeTabAt(this.getSelectedIndex());
-
-            parent.getByActionCommand("close").setEnabled(this.hasSelectedFile());
         }
     }
 
     public void closeFile(int index) {
         if (this.hasSelectedFile()) {
             removeTabAt(index);
-
-            parent.getByActionCommand("close").setEnabled(this.hasSelectedFile());
         }
     }
 
@@ -136,5 +139,34 @@ public class NbtTabPanel extends JTabbedPane {
 
     public Map<Integer, ImageIcon> getNbtIcons() {
         return nbtIcons;
+    }
+
+    public GuiNbtEditor getWindow() {
+        return parent;
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        if (!this.hasSelectedFile()) {
+            var font = g.getFont().deriveFont(28.0f);
+            g.setColor(Color.LIGHT_GRAY);
+            ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+            drawCenteredString(g, "Drop file here to open or click File > Open", font);
+        }
+        super.paintComponent(g);
+    }
+
+    // From: https://stackoverflow.com/questions/27706197/how-can-i-center-graphics-drawstring-in-java
+    public void drawCenteredString(Graphics g, String text, Font font) {
+        // Get the FontMetrics
+        FontMetrics metrics = g.getFontMetrics(font);
+        // Determine the X coordinate for the text
+        int x = (getWidth() - metrics.stringWidth(text)) / 2;
+        // Determine the Y coordinate for the text (note we add the ascent, as in java 2d 0 is top of the screen)
+        int y = ((getHeight() - metrics.getHeight()) / 2) + metrics.getAscent();
+        // Set the font
+        g.setFont(font);
+        // Draw the String
+        g.drawString(text, x, y);
     }
 }

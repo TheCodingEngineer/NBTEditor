@@ -50,7 +50,7 @@ public final class LongArrayTag extends Tag {
 	/**
 	 * The value.
 	 */
-	private final long[] value;
+	private long[] value;
 
 	/**
 	 * Creates the tag.
@@ -65,11 +65,23 @@ public final class LongArrayTag extends Tag {
 		super(name);
 		this.value = value;
 	}
+
+	public LongArrayTag(final String name, final int size) {
+
+		super(name);
+		this.value = new long[size];
+	}
 	
 	@Override
 	public long[] getValue() {
 	
 		return value;
+	}
+
+	@Override
+	public void setValue(Object value) {
+
+		this.value = (long[]) value;
 	}
 	
 	@Override

@@ -2,6 +2,10 @@
 
 An open source cross-platform graphical editor for visualizing and editing NBT (named binary tag) data written in Java.
 
+## Images
+
+![Gui Overview](docs/Editor_Overview.png)
+
 ## Prerequisites
 
 * Java 17

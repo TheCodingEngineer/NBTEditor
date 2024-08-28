@@ -69,7 +69,12 @@ public final class DoubleTag extends Tag {
 	
 		return value;
 	}
-	
+
+	@Override
+	public void setValue(Object value) {
+
+	}
+
 	@Override
 	public String toString() {
 	

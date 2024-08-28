@@ -103,6 +103,16 @@ public class MenuBuilder implements ActionListener, MenuHandler {
 		menu.add(item);
 		return this;
 	}
+
+	public MenuBuilder addNamedMenuItem(String name, String actionCommand, Icon icon, boolean enabled) {
+		JMenuItem item = new JMenuItem(name);
+		item.setIcon(icon);
+		item.setEnabled(enabled);
+		item.addActionListener(this);
+		item.setActionCommand(actionCommand);
+		menu.add(item);
+		return this;
+	}
 	
 	public MenuBuilder addMenuItem(String name, String actionCommand, Icon icon, KeyStroke accelerator){
 		JMenuItem item = new JMenuItem(language.getString(name));

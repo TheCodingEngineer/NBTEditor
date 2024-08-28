@@ -48,7 +48,7 @@ public final class ShortTag extends Tag {
 	/**
 	 * The value.
 	 */
-	private final short value;
+	private short value;
 	
 	/**
 	 * Creates the tag.
@@ -69,7 +69,13 @@ public final class ShortTag extends Tag {
 	
 		return value;
 	}
-	
+
+	@Override
+	public void setValue(Object value) {
+
+		this.value = (short) value;
+	}
+
 	@Override
 	public String toString() {
 	

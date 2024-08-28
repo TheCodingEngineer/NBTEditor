@@ -35,20 +35,20 @@ public final class NBTTagRegistry {
     }
 
     static {
-        register(new NBTTagInfo("Byte", "/images/byte.png", NBTConstants.TYPE_BYTE, ByteTag.class));
-        register(new NBTTagInfo("Short", "/images/short.png", NBTConstants.TYPE_SHORT, ShortTag.class));
-        register(new NBTTagInfo("Int", "/images/integer.png", NBTConstants.TYPE_INT, IntTag.class));
-        register(new NBTTagInfo("Long", "/images/long.png", NBTConstants.TYPE_LONG, LongTag.class));
-        register(new NBTTagInfo("Float", "/images/float.png", NBTConstants.TYPE_FLOAT, FloatTag.class));
-        register(new NBTTagInfo("Double", "/images/double.png", NBTConstants.TYPE_DOUBLE, DoubleTag.class));
+        register(new NBTTagInfo("Byte", "/images/byte.png", NBTConstants.FLAG_NONE, NBTConstants.TYPE_BYTE, ByteTag.class));
+        register(new NBTTagInfo("Short", "/images/short.png", NBTConstants.FLAG_NONE, NBTConstants.TYPE_SHORT, ShortTag.class));
+        register(new NBTTagInfo("Int", "/images/integer.png",NBTConstants.FLAG_NONE, NBTConstants.TYPE_INT, IntTag.class));
+        register(new NBTTagInfo("Long", "/images/long.png", NBTConstants.FLAG_NONE, NBTConstants.TYPE_LONG, LongTag.class));
+        register(new NBTTagInfo("Float", "/images/float.png", NBTConstants.FLAG_NONE, NBTConstants.TYPE_FLOAT, FloatTag.class));
+        register(new NBTTagInfo("Double", "/images/double.png", NBTConstants.FLAG_NONE, NBTConstants.TYPE_DOUBLE, DoubleTag.class));
 
-        register(new NBTTagInfo("ByteArray", "/images/byte_array.png", NBTConstants.TYPE_BYTE_ARRAY, ByteArrayTag.class));
-        register(new NBTTagInfo("IntArray", "/images/int_array.png", NBTConstants.TYPE_INT_ARRAY, IntArrayTag.class));
-        register(new NBTTagInfo("LongArray", "/images/long_array.png", NBTConstants.TYPE_LONG_ARRAY, LongArrayTag.class));
+        register(new NBTTagInfo("ByteArray", "/images/byte_array.png", NBTConstants.FLAG_ARRAY, NBTConstants.TYPE_BYTE_ARRAY, ByteArrayTag.class));
+        register(new NBTTagInfo("IntArray", "/images/int_array.png", NBTConstants.FLAG_ARRAY, NBTConstants.TYPE_INT_ARRAY, IntArrayTag.class));
+        register(new NBTTagInfo("LongArray", "/images/long_array.png", NBTConstants.FLAG_ARRAY, NBTConstants.TYPE_LONG_ARRAY, LongArrayTag.class));
 
-        register(new NBTTagInfo("Compound", "/images/compound.png", NBTConstants.TYPE_COMPOUND, CompoundTag.class));
-        register(new NBTTagInfo("List", "/images/list.png", NBTConstants.TYPE_LIST, ListTag.class));
-        register(new NBTTagInfo("String", "/images/string.png", NBTConstants.TYPE_STRING, StringTag.class));
+        register(new NBTTagInfo("Compound", "/images/compound.png", NBTConstants.FLAG_CHILDREN, NBTConstants.TYPE_COMPOUND, CompoundTag.class));
+        register(new NBTTagInfo("List", "/images/list.png", NBTConstants.FLAG_CHILDREN, NBTConstants.TYPE_LIST, ListTag.class));
+        register(new NBTTagInfo("String", "/images/string.png", NBTConstants.FLAG_NONE, NBTConstants.TYPE_STRING, StringTag.class));
     }
 
 }

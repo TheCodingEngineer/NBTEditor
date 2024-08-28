@@ -4,99 +4,100 @@ import org.jnbt.CompoundTag;
 import org.jnbt.ListTag;
 import org.jnbt.Tag;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 import java.util.Enumeration;
 import java.util.Vector;
 
-public class NbtTreeNode implements TreeNode {
+public class NbtTreeNode extends DefaultMutableTreeNode {
 
-    private final NbtTreeNode parent;
-    private final Tag nbtTag;
-
-    private final Vector<NbtTreeNode> children;
+    private boolean modifyStructure = false;
 
     public NbtTreeNode(Tag nbtTag) {
-        this(null, nbtTag);
+        super(nbtTag);
+        this.createChildNodes(nbtTag);
+        this.modifyStructure = true;
     }
 
-    public NbtTreeNode(NbtTreeNode parent, Tag nbtTag) {
-        this.parent = parent;
-        this.nbtTag = nbtTag;
-        this.children = this.createChildNodes(nbtTag);
-    }
-    private boolean allowsChildren(Tag nbtTag) {
-        return nbtTag instanceof CompoundTag || nbtTag instanceof ListTag;
-    }
 
-    private Vector<NbtTreeNode> createChildNodes(Tag nbtTag) {
-        Vector<NbtTreeNode> vector = new Vector<>();
+    private void createChildNodes(Tag nbtTag) {
         if (nbtTag instanceof CompoundTag compoundTag) {
             for (Tag child : compoundTag.getValue().values()) {
-                vector.add(new NbtTreeNode(this, child));
+                this.add(new NbtTreeNode(child));
             }
         } else if (nbtTag instanceof ListTag listTag) {
             for (Tag child : listTag.getValue()) {
-                vector.add(new NbtTreeNode(this, child));
+                this.add(new NbtTreeNode(child));
             }
         }
-        return vector;
     }
 
-
-    @Override
-    public TreeNode getChildAt(int i) {
-        if (i >= 0 && i < getChildCount()) {
-            return this.children.get(i);
-        }
-        return null;
-    }
-
-    @Override
-    public int getChildCount() {
-        return this.children.size();
-    }
-
-    @Override
-    public TreeNode getParent() {
-        return parent;
-    }
-
-    @Override
-    public int getIndex(TreeNode treeNode) {
-        return this.children.indexOf(treeNode);
-    }
 
     @Override
     public boolean getAllowsChildren() {
-        return this.allowsChildren(nbtTag);
-    }
-
-    @Override
-    public boolean isLeaf() {
-        return getChildCount() == 0;
-    }
-
-    @Override
-    public Enumeration<? extends TreeNode> children() {
-        return this.children.elements();
+        return this.userObject instanceof CompoundTag || this.userObject instanceof ListTag;
     }
 
     public Tag getNbtTag() {
-        return nbtTag;
+        return (Tag) this.userObject;
     }
 
     @Override
     public String toString() {
-        if (nbtTag instanceof CompoundTag compoundTag) {
-            return nbtTag.getName() + " [" + compoundTag.getValue().size() + " entries]";
-        } else if (nbtTag instanceof ListTag listTag) {
-            return nbtTag.getName() + " [" + listTag.getValue().size() + " entries]";
+        Tag tag = getNbtTag();
+        if (tag instanceof CompoundTag compoundTag) {
+            return tag.getName() + " [" + compoundTag.getValue().size() + " entries]";
+        } else if (tag instanceof ListTag listTag) {
+            return tag.getName() + " [" + listTag.getValue().size() + " entries]";
         }
-        return nbtTag.getName() + ": " + nbtTag.getValue().toString();
+        return tag.getName() + ": " + tag.getValue().toString();
     }
 
     @Override
-    public int hashCode() {
-        return nbtTag.hashCode();
+    public void setAllowsChildren(boolean allows) {
+        throw new UnsupportedOperationException("setAllowsChildren is not supported");
+    }
+
+    @Override
+    public void setUserObject(Object userObject) {
+        if (userObject == null) {
+            throw new NullPointerException("userObject cannot be null");
+        }
+        if (!(userObject instanceof Tag)) {
+            throw new IllegalArgumentException("userObject must be a Tag");
+        }
+        super.setUserObject(userObject);
+    }
+
+    @Override
+    public void remove(int childIndex) {
+        var oldNode = (NbtTreeNode) this.children.get(childIndex);
+        super.remove(childIndex);
+
+        if (!modifyStructure) {
+            return;
+        }
+        if (getNbtTag() instanceof CompoundTag compoundTag) {
+            compoundTag.getValue().remove(oldNode.getNbtTag().getName());
+        } else if (getNbtTag() instanceof ListTag listTag) {
+            listTag.getValue().remove(childIndex);
+        }
+    }
+
+    @Override
+    public void insert(MutableTreeNode newChild, int childIndex) {
+        super.insert(newChild, childIndex);
+
+        if (!modifyStructure) {
+            return;
+        }
+
+        var newNode = (NbtTreeNode) newChild;
+        if (getNbtTag() instanceof CompoundTag compoundTag) {
+            compoundTag.getValue().put(newNode.getNbtTag().getName(), newNode.getNbtTag());
+        } else if (getNbtTag() instanceof ListTag listTag) {
+            listTag.getValue().add(childIndex, newNode.getNbtTag());
+        }
     }
 }

@@ -37,6 +37,15 @@ public class MenuPopupBuilder implements ActionListener, MenuHandler {
 		menu.add(item);
 		return this;
 	}
+
+	public MenuPopupBuilder addMenuItem(String name, String actionCommand, KeyStroke accelerator){
+		JMenuItem item = new JMenuItem(language.getString(name));
+		item.addActionListener(this);
+		item.setActionCommand(actionCommand);
+		item.setAccelerator(accelerator);
+		menu.add(item);
+		return this;
+	}
 	
 	public MenuPopupBuilder addCheckboxMenuItem(String name, String actionCommand){
 		JCheckBoxMenuItem item = new JCheckBoxMenuItem(language.getString(name));
@@ -81,7 +90,13 @@ public class MenuPopupBuilder implements ActionListener, MenuHandler {
 	}
 	
 	public MenuPopupBuilder addMenu(MenuBuilder builder) {
-		menu.add(builder.getJMenu());
+		return addMenu(builder, true);
+	}
+
+	public MenuPopupBuilder addMenu(MenuBuilder builder, boolean enabled) {
+		var builtMenu = builder.getJMenu();
+		builtMenu.setEnabled(enabled);
+		menu.add(builtMenu);
 		return this;
 	}
 	

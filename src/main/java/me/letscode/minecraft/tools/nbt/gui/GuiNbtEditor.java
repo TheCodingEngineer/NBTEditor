@@ -1,11 +1,13 @@
 package me.letscode.minecraft.tools.nbt.gui;
 
 import me.letscode.minecraft.tools.nbt.gui.dialogs.AboutDialog;
+import me.letscode.minecraft.tools.nbt.gui.dialogs.NbtEditDialog;
 import me.letscode.minecraft.tools.nbt.gui.menu.MenuBuilder;
 import me.letscode.minecraft.tools.nbt.gui.menu.MenuPopupBuilder;
 import me.letscode.minecraft.tools.nbt.utils.*;
 import org.jnbt.CompoundTag;
 import org.jnbt.NBTConstants;
+import org.jnbt.Tag;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -155,6 +157,7 @@ public class GuiNbtEditor extends JFrame {
         setupToolBar(toolBar);
 
         this.tabPanel = new NbtTabPanel(this);
+        this.tabPanel.setBorder(BorderFactory.createEmptyBorder(3, 0, 0, 0));
 
         add(toolBar, BorderLayout.NORTH);
         add(this.tabPanel, BorderLayout.CENTER);
@@ -171,6 +174,17 @@ public class GuiNbtEditor extends JFrame {
             }
         }
     }
+
+    public Tag showEditDialog(NBTTagInfo info, Tag tag) {
+        NbtEditDialog dialog = new NbtEditDialog(GuiNbtEditor.this, Resources.getImage("/images/compound.png"), this.guiTranslations, info, tag);
+        return dialog.showCenter();
+    }
+
+    public Tag showNewDialog(NBTTagInfo info) {
+        NbtEditDialog dialog = new NbtEditDialog(GuiNbtEditor.this, Resources.getImage("/images/compound.png"), this.guiTranslations, info);
+        return dialog.showCenter();
+    }
+
 
 
     public JMenuItem getByActionCommand(String actionCommand) {

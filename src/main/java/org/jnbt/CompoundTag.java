@@ -38,6 +38,7 @@ package org.jnbt;
 //@formatter:on
 
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -64,13 +65,25 @@ public final class CompoundTag extends Tag {
 	public CompoundTag(final String name, final Map<String, Tag> value) {
 	
 		super(name);
-		this.value = Collections.unmodifiableMap(value);
+		this.value = new LinkedHashMap<>(value);
+	}
+
+	public CompoundTag(final String name) {
+
+		super(name);
+		this.value = new LinkedHashMap<>();
 	}
 	
 	@Override
 	public Map<String, Tag> getValue() {
 	
 		return value;
+	}
+
+	@Override
+	public void setValue(Object value) {
+
+		throw new UnsupportedOperationException("Compound cannot be modified directly");
 	}
 	
 	@Override

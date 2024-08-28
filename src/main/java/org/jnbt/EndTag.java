@@ -61,10 +61,16 @@ public final class EndTag extends Tag {
 	
 	@Override
 	public Object getValue() {
-	
+
 		return value;
 	}
-	
+
+	@Override
+	public void setValue(Object value) {
+
+		throw new UnsupportedOperationException("End tag cannot be modified");
+	}
+
 	@Override
 	public String toString() {
 	

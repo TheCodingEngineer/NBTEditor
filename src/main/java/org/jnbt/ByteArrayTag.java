@@ -50,7 +50,7 @@ public final class ByteArrayTag extends Tag {
 	/**
 	 * The value.
 	 */
-	private final byte[] value;
+	private byte[] value;
 	
 	/**
 	 * Creates the tag.
@@ -65,11 +65,23 @@ public final class ByteArrayTag extends Tag {
 		super(name);
 		this.value = value;
 	}
-	
+
+	public ByteArrayTag(final String name, final int size) {
+
+		super(name);
+		this.value = new byte[size];
+	}
+
 	@Override
 	public byte[] getValue() {
 	
 		return value;
+	}
+
+	@Override
+	public void setValue(Object value) {
+
+		this.value = (byte[]) value;
 	}
 	
 	@Override

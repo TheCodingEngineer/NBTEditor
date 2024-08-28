@@ -48,7 +48,7 @@ public abstract class Tag {
 	/**
 	 * The name of this tag.
 	 */
-	private final String name;
+	private String name;
 	
 	/**
 	 * Creates the tag with the specified name.
@@ -67,8 +67,12 @@ public abstract class Tag {
 	 * @return The name of this tag.
 	 */
 	public final String getName() {
-	
 		return name;
+	}
+
+
+	public final void setName(String name) {
+		this.name = name;
 	}
 	
 	/**
@@ -77,7 +81,14 @@ public abstract class Tag {
 	 * @return The value of this tag.
 	 */
 	public abstract Object getValue();
-	
+
+	/**
+	 * Sets the value of this tag.
+	 *
+	 * @param value value
+	 */
+	public abstract void setValue(Object value);
+
 	/*
 	 * (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
@@ -107,5 +118,5 @@ public abstract class Tag {
 		} else if (!name.equals(other.name)) { return false; }
 		return true;
 	}
-	
+
 }
