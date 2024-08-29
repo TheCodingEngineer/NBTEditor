@@ -151,7 +151,7 @@ public class NbtTabPanel extends JTabbedPane {
             var font = g.getFont().deriveFont(28.0f);
             g.setColor(Color.LIGHT_GRAY);
             ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-            drawCenteredString(g, "Drop file here to open or click File > Open", font);
+            drawCenteredString(g, parent.getTranslation("gui.backgroundInfo"), font);
         }
         super.paintComponent(g);
     }

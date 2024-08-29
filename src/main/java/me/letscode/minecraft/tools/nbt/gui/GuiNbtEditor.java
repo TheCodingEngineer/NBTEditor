@@ -65,7 +65,7 @@ public class GuiNbtEditor extends JFrame {
         setTitle(this.guiTranslations.getString("gui.title"));
 
         setLayout(new BorderLayout());
-        setIconImage(Resources.getImage("/images/compound.png").getImage());
+        setIconImage(Resources.getImage("/images/icon_256.png").getImage());
 
         addComponents();
 
@@ -141,7 +141,7 @@ public class GuiNbtEditor extends JFrame {
                     this.openURL("https://github.com/TheCodingEngineer/NBTEditor");
                     break;
                 case "showAbout":
-                    AboutDialog dialog = new AboutDialog(GuiNbtEditor.this, Resources.getImage("/images/compound.png"), this.guiTranslations);
+                    AboutDialog dialog = new AboutDialog(GuiNbtEditor.this, Resources.getImage("/images/icon_256.png"), this.guiTranslations);
                     dialog.showCenter();
                     break;
             }
@@ -185,7 +185,9 @@ public class GuiNbtEditor extends JFrame {
         return dialog.showCenter();
     }
 
-
+    public String getTranslation(String key) {
+        return this.guiTranslations.getString(key);
+    }
 
     public JMenuItem getByActionCommand(String actionCommand) {
         return ComponentUtils.search(this.fileMenu, actionCommand);
